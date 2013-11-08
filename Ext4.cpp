@@ -76,7 +76,6 @@ int Ext4::check(const char *fsPath) {
     }
 
     int rc = -1;
-    int status;
     do {
         const char *args[5];
         args[0] = E2FSCK_PATH;
@@ -85,8 +84,7 @@ int Ext4::check(const char *fsPath) {
         args[3] = fsPath;
         args[4] = NULL;
 
-        rc = android_fork_execvp(ARRAY_SIZE(args), (char **)args, &status, false,
-            true);
+        rc = logwrap(4, args, 1);
 
         switch(rc) {
         case 0:
